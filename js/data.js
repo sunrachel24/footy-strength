@@ -1040,34 +1040,40 @@ const PROGRAM_DATA = {
 // For exercises without demo videos, we show catalogue images + description.
 const _CAT = {
   hipFlexor: {
-    images: ['exercise-images/hip-flexor-stretch-1.png', 'exercise-images/hip-flexor-stretch-2.png'],
+    images: ['exercise-images/hip-flexor.png'],
     description: 'Place one knee on the floor with the opposite foot forward, as if in the bottom of a lunge. Keeping your torso upright, tuck your tailbone under and push your pelvis forward — your knee should not pass your toes. To deepen the stretch, reach the same-side arm overhead. Hold 30 sec each side, alternating for 2–3 sets.',
   },
   squatJump: {
-    images: ['exercise-images/squat-jump-1.png', 'exercise-images/squat-jump-2.png'],
+    images: ['exercise-images/squat-jump.png'],
     description: 'Stand in your natural jumping stance. Dip and explode upward with maximum power, using your arms for momentum. Landing is equally important — aim for a soft, smooth landing with feet shoulder-width apart, immediately absorbing into a half-squat. Reset fully between each rep rather than performing back-to-back.',
   },
+  squatJump1Leg: {
+    images: ['exercise-images/squat-jump-1leg.png'],
+    description: 'Jump onto a box or platform and land on a single leg, absorbing the weight as softly as possible. Knee must track over toes — do not let it cave inward. Maintain hip and torso stability throughout. Step down and alternate legs. 3–5 reps per leg; stop if form breaks down.',
+  },
   squatJumpRotate: {
-    images: ['exercise-images/squat-jump-rotate-1.png', 'exercise-images/squat-jump-rotate-2.png'],
+    images: ['exercise-images/squat-jump-rotate.png'],
     description: 'Same takeoff as the squat jump. As you leave the ground, rotate in the air to one side. Apply the same landing mechanics — soft, controlled, knees tracking over toes. Reset and jump back in the opposite direction. Start with 90° turns, progressing to 180°.',
   },
   inclinePushUp: {
-    images: ['exercise-images/incline-pushup-1.png', 'exercise-images/incline-pushup-2.png'],
+    images: ['exercise-images/incline-pushup.png'],
     description: 'Set up with hands on a bench at roughly 45°. Lower your chest toward the bench with control, then explode back up — aim to push your hands as far off the bench as possible. Maintain a straight body line throughout. Land softly and immediately flow into the next rep. Quality over quantity: stop when height or speed drops (typically 5–8 reps).',
   },
   medBallPowerDrop: {
-    images: ['exercise-images/medball-power-drop-1.png', 'exercise-images/medball-power-drop-2.png'],
+    images: [],
     description: 'Lie on your back with a partner standing above. Begin by throwing the ball upward with maximum force — prioritise speed and height. Your partner catches and drops it back to you at chest height. Absorb the catch smoothly and immediately explode back up. Use a 4–5 kg ball. Stop the set as soon as height or power drops.',
   },
 };
 
 /**
  * Returns catalogue data (images + description) for exercises without videos.
- * Matches on exercise name substrings — rotation variants checked before plain jump.
+ * Single-leg and rotation variants checked before the plain jump fallthrough.
  */
 function getCatalogueData(name) {
   if (name.includes('Hip Flexor Stretch')) return _CAT.hipFlexor;
   if (name.includes('Rotate') || name.includes('Rotation')) return _CAT.squatJumpRotate;
+  if ((name.includes('Stationary Jump') || name.includes('Squat Jump')) &&
+      (name.includes('1 Leg') || name.includes('Single Leg'))) return _CAT.squatJump1Leg;
   if (name.includes('Stationary Jump') || name.includes('Squat Jump')) return _CAT.squatJump;
   if (name.includes('Incline Push Up') || name.includes('Plyometric Push Ups') || name.includes('Plyometric Incline')) return _CAT.inclinePushUp;
   if (name.includes('Medicine Ball Power Drop')) return _CAT.medBallPowerDrop;
