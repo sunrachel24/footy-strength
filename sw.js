@@ -1,6 +1,6 @@
 // FootyStrength Service Worker — Cache-first offline support
 
-const CACHE_NAME = 'footystrength-v1';
+const CACHE_NAME = 'footystrength-v2';
 const BASE = '/footy-strength';
 
 const ASSETS = [

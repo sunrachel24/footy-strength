@@ -1090,3 +1090,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   gap: 6px;
   flex-shrink: 0;
 }
+
+/* ── Exercise Catalogue (PDF images + description) ── */
+.ex-catalogue {
+  margin-top: 12px;
+  border-top: 1px solid var(--card3);
+  padding-top: 14px;
+}
+
+.ex-catalogue-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.ex-catalogue-img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+  margin-bottom: 10px;
+  background: #1c1c1e;
+}

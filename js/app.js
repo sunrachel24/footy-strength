@@ -602,6 +602,13 @@ function openExerciseDetail(level, phaseIndex, blockIndex, sessionIndex, exercis
       <source src="videos/${encodeURIComponent(item.videoFile)}.mp4" type="video/mp4">
     </video>` : '';
 
+  const catalogue = !item.videoFile ? getCatalogueData(item.name) : null;
+  const catalogueHtml = catalogue ? `
+    <div class="ex-catalogue">
+      <div class="ex-catalogue-desc">${escHtml(catalogue.description)}</div>
+      ${catalogue.images.map(src => `<img class="ex-catalogue-img" src="${src}" alt="${escHtml(item.name)} reference" loading="lazy">`).join('')}
+    </div>` : '';
+
   const programNotesHtml = item.notes
     ? `<div class="ex-detail-program-notes">${escHtml(item.notes)}</div>` : '';
 
@@ -621,6 +628,7 @@ function openExerciseDetail(level, phaseIndex, blockIndex, sessionIndex, exercis
         <div class="ex-detail-body">
           <div class="ex-detail-prescription">${escHtml(item.prescription)}</div>
           ${programNotesHtml}
+          ${catalogueHtml}
           <div class="ex-detail-field">
             <label class="ex-detail-label">Weight Used</label>
             <div class="ex-detail-input-row">

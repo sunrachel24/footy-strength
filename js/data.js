@@ -1035,3 +1035,41 @@ const PROGRAM_DATA = {
   intermediate: [intBC1, intBC2, intTP, intSP, intISV, intISS],
   beginner:     [bgnBC1, bgnBC2, bgnTP, bgnSP, bgnIS],
 };
+
+// ─── Exercise Catalogue (PDF Section 3) ───────────────────────────────────────
+// For exercises without demo videos, we show catalogue images + description.
+const _CAT = {
+  hipFlexor: {
+    images: ['exercise-images/hip-flexor-stretch-1.png', 'exercise-images/hip-flexor-stretch-2.png'],
+    description: 'Place one knee on the floor with the opposite foot forward, as if in the bottom of a lunge. Keeping your torso upright, tuck your tailbone under and push your pelvis forward — your knee should not pass your toes. To deepen the stretch, reach the same-side arm overhead. Hold 30 sec each side, alternating for 2–3 sets.',
+  },
+  squatJump: {
+    images: ['exercise-images/squat-jump-1.png', 'exercise-images/squat-jump-2.png'],
+    description: 'Stand in your natural jumping stance. Dip and explode upward with maximum power, using your arms for momentum. Landing is equally important — aim for a soft, smooth landing with feet shoulder-width apart, immediately absorbing into a half-squat. Reset fully between each rep rather than performing back-to-back.',
+  },
+  squatJumpRotate: {
+    images: ['exercise-images/squat-jump-rotate-1.png', 'exercise-images/squat-jump-rotate-2.png'],
+    description: 'Same takeoff as the squat jump. As you leave the ground, rotate in the air to one side. Apply the same landing mechanics — soft, controlled, knees tracking over toes. Reset and jump back in the opposite direction. Start with 90° turns, progressing to 180°.',
+  },
+  inclinePushUp: {
+    images: ['exercise-images/incline-pushup-1.png', 'exercise-images/incline-pushup-2.png'],
+    description: 'Set up with hands on a bench at roughly 45°. Lower your chest toward the bench with control, then explode back up — aim to push your hands as far off the bench as possible. Maintain a straight body line throughout. Land softly and immediately flow into the next rep. Quality over quantity: stop when height or speed drops (typically 5–8 reps).',
+  },
+  medBallPowerDrop: {
+    images: ['exercise-images/medball-power-drop-1.png', 'exercise-images/medball-power-drop-2.png'],
+    description: 'Lie on your back with a partner standing above. Begin by throwing the ball upward with maximum force — prioritise speed and height. Your partner catches and drops it back to you at chest height. Absorb the catch smoothly and immediately explode back up. Use a 4–5 kg ball. Stop the set as soon as height or power drops.',
+  },
+};
+
+/**
+ * Returns catalogue data (images + description) for exercises without videos.
+ * Matches on exercise name substrings — rotation variants checked before plain jump.
+ */
+function getCatalogueData(name) {
+  if (name.includes('Hip Flexor Stretch')) return _CAT.hipFlexor;
+  if (name.includes('Rotate') || name.includes('Rotation')) return _CAT.squatJumpRotate;
+  if (name.includes('Stationary Jump') || name.includes('Squat Jump')) return _CAT.squatJump;
+  if (name.includes('Incline Push Up') || name.includes('Plyometric Push Ups') || name.includes('Plyometric Incline')) return _CAT.inclinePushUp;
+  if (name.includes('Medicine Ball Power Drop')) return _CAT.medBallPowerDrop;
+  return null;
+}
