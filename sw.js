@@ -32,9 +32,15 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch — cache first, fall back to network
+// Fetch — cache first, fall back to network (skip videos)
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
+
+  // Don't cache videos — serve directly from network
+  if (event.request.url.includes('/videos/')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then(cached => {

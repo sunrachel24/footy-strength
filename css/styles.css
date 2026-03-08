@@ -963,3 +963,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   letter-spacing: 0.08em;
   padding: 12px 16px 6px;
 }
+
+/* ─── Video button & player ─────────────────────────────────── */
+.video-btn {
+  background: rgba(255,255,255,0.12);
+  border: none;
+  color: var(--text1);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.video-btn:active { opacity: 0.7; }
+
+.video-sheet {
+  background: var(--card2);
+  border-radius: 16px 16px 0 0;
+  width: 100%;
+  max-width: 600px;
+  overflow: hidden;
+  animation: sheetIn 0.25s ease;
+}

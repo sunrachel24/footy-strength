@@ -203,7 +203,9 @@ function renderSessionView(level, phaseIndex, blockIndex, sessionIndex) {
   function exItemHtml(item, isSuperset = false) {
     const wt = weightMap[item.name];
     const wtBadge = wt ? `<span class="weight-badge">${escHtml(wt)} lbs</span>` : '';
-    const videoBadge = '';
+    const videoBadge = item.videoFile
+      ? `<button class="video-btn" onclick="event.stopPropagation();openVideo('${escHtml(item.videoFile)}','${escHtml(item.name).replace(/'/g,"\\'")}')">▶</button>`
+      : '';
     const notesHtml = item.notes ? `<div class="exercise-notes">${escHtml(item.notes)}</div>` : '';
     const wrapClass = isSuperset ? 'superset-item' : 'exercise-single';
     return `
@@ -564,6 +566,42 @@ function updateTabBar(active) {
   const existing = document.getElementById('tab-bar');
   if (existing) existing.remove();
   document.getElementById('app').insertAdjacentHTML('beforeend', renderTabBar(active));
+}
+
+// ─── Video Player ─────────────────────────────────────────────
+function openVideo(videoFile, title) {
+  const existing = document.getElementById('video-modal');
+  if (existing) existing.remove();
+
+  const url = `videos/${encodeURIComponent(videoFile)}.mp4`;
+  const html = `
+    <div class="modal-overlay" id="video-modal" onclick="closeVideoOnOverlay(event)">
+      <div class="video-sheet">
+        <div class="modal-header">
+          <div style="min-width:52px"></div>
+          <div class="modal-title">${escHtml(title)}</div>
+          <button class="modal-cancel" onclick="closeVideo()">Done</button>
+        </div>
+        <video controls autoplay playsinline
+          style="width:100%;background:#000;max-height:60vh;">
+          <source src="${url}" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function closeVideo() {
+  const modal = document.getElementById('video-modal');
+  if (modal) {
+    modal.querySelector('video')?.pause();
+    modal.remove();
+  }
+}
+
+function closeVideoOnOverlay(event) {
+  if (event.target.id === 'video-modal') closeVideo();
 }
 
 // ─── Level Toggle ─────────────────────────────────────────────
