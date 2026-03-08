@@ -203,7 +203,7 @@ function renderSessionView(level, phaseIndex, blockIndex, sessionIndex) {
   function exItemHtml(item, isSuperset = false) {
     const wt = weightMap[item.name];
     const wtBadge = wt ? `<span class="weight-badge">${escHtml(wt)} lbs</span>` : '';
-    const videoBadge = item.videoFile ? `<span class="video-badge" title="Video available">🎬</span>` : '';
+    const videoBadge = '';
     const notesHtml = item.notes ? `<div class="exercise-notes">${escHtml(item.notes)}</div>` : '';
     const wrapClass = isSuperset ? 'superset-item' : 'exercise-single';
     return `
@@ -569,7 +569,7 @@ function updateTabBar(active) {
 // ─── Level Toggle ─────────────────────────────────────────────
 function setLevel(level) {
   state.level = level;
-  navigate('#/');
+  renderPhaseList();
 }
 
 // ─── Router ───────────────────────────────────────────────────
