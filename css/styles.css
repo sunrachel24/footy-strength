@@ -1094,8 +1094,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* ── Exercise Catalogue (PDF images + description) ── */
 .ex-detail-catalogue-img {
   width: 100%;
-  max-height: 240px;
-  object-fit: cover;
   display: block;
   background: #000;
 }
