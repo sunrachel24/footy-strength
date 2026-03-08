@@ -71,3 +71,35 @@ function getEntriesForMonth(year, month) {
 function getEntriesForDate(dateStr) {
   return getEntries().filter(e => e.date.slice(0, 10) === dateStr);
 }
+
+/**
+ * Save a single exercise log within today's entry for a given phase+session.
+ * Creates the entry if it doesn't exist yet.
+ */
+function saveExerciseLog(phaseName, weekBlockTitle, sessionNumber, exerciseName, weight, notes, dateStr) {
+  const entries = getEntries();
+  let entry = entries.find(e =>
+    e.date.slice(0, 10) === dateStr &&
+    e.phaseName === phaseName &&
+    e.sessionNumber === sessionNumber
+  );
+  if (!entry) {
+    entry = {
+      id: crypto.randomUUID(),
+      date: dateStr,
+      phaseName,
+      weekBlockTitle,
+      sessionNumber,
+      exerciseLogs: [],
+      generalNotes: '',
+    };
+    entries.push(entry);
+  }
+  const logIdx = entry.exerciseLogs.findIndex(l => l.exerciseName === exerciseName);
+  if (logIdx >= 0) {
+    entry.exerciseLogs[logIdx] = { exerciseName, weight, notes };
+  } else {
+    entry.exerciseLogs.push({ exerciseName, weight, notes });
+  }
+  saveAllEntries(entries);
+}

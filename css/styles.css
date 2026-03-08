@@ -985,3 +985,108 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   overflow: hidden;
   animation: sheetIn 0.25s ease;
 }
+
+/* ─── Exercise detail sheet ─────────────────────────────────── */
+.ex-detail-sheet {
+  background: var(--card2);
+  border-radius: 16px 16px 0 0;
+  width: 100%;
+  max-width: 600px;
+  max-height: 92vh;
+  overflow-y: auto;
+  animation: sheetIn 0.25s ease;
+}
+
+.ex-detail-video {
+  width: 100%;
+  background: #000;
+  max-height: 240px;
+  display: block;
+}
+
+.ex-detail-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ex-detail-prescription {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.ex-detail-program-notes {
+  font-size: 13px;
+  color: var(--text3);
+  background: var(--card3);
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.ex-detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ex-detail-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ex-detail-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card3);
+  border-radius: 10px;
+  padding: 0 12px;
+}
+
+.ex-detail-input-row input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text1);
+  font-size: 17px;
+  padding: 12px 0;
+}
+
+.ex-detail-unit {
+  font-size: 15px;
+  color: var(--text3);
+}
+
+.ex-detail-field textarea {
+  background: var(--card3);
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 12px;
+  color: var(--text1);
+  font-size: 15px;
+  min-height: 80px;
+  resize: none;
+  font-family: inherit;
+}
+
+.video-icon {
+  font-size: 11px;
+  background: rgba(255,255,255,0.12);
+  padding: 3px 8px;
+  border-radius: 20px;
+  color: var(--text2);
+}
+
+.exercise-name-row-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}

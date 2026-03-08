@@ -203,17 +203,15 @@ function renderSessionView(level, phaseIndex, blockIndex, sessionIndex) {
   function exItemHtml(item, isSuperset = false) {
     const wt = weightMap[item.name];
     const wtBadge = wt ? `<span class="weight-badge">${escHtml(wt)} lbs</span>` : '';
-    const videoBadge = item.videoFile
-      ? `<button class="video-btn" onclick="event.stopPropagation();openVideo('${escHtml(item.videoFile)}','${escHtml(item.name).replace(/'/g,"\\'")}')">▶</button>`
-      : '';
+    const videoIcon = item.videoFile ? `<span class="video-icon">▶</span>` : '';
     const notesHtml = item.notes ? `<div class="exercise-notes">${escHtml(item.notes)}</div>` : '';
     const wrapClass = isSuperset ? 'superset-item' : 'exercise-single';
+    const safeName = item.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     return `
-      <div class="${wrapClass}" onclick="openLogSheet('${level}','${phaseIndex}','${blockIndex}','${sessionIndex}','${escHtml(item.name).replace(/'/g,"\\'")}')">
+      <div class="${wrapClass}" onclick="openExerciseDetail('${level}','${phaseIndex}','${blockIndex}','${sessionIndex}','${safeName}')">
         <div class="exercise-name-row">
           <div class="exercise-name">${escHtml(item.name)}</div>
-          ${videoBadge}
-          ${wtBadge}
+          <div class="exercise-name-row-right">${videoIcon}${wtBadge}</div>
         </div>
         <div class="exercise-prescription">${escHtml(item.prescription)}</div>
         ${notesHtml}
@@ -566,6 +564,100 @@ function updateTabBar(active) {
   const existing = document.getElementById('tab-bar');
   if (existing) existing.remove();
   document.getElementById('app').insertAdjacentHTML('beforeend', renderTabBar(active));
+}
+
+// ─── Exercise Detail Sheet ────────────────────────────────────
+function openExerciseDetail(level, phaseIndex, blockIndex, sessionIndex, exerciseName) {
+  const phases = getPhasesByLevel(level);
+  const phase = phases[parseInt(phaseIndex)];
+  const wb = phase.weekBlocks[parseInt(blockIndex)];
+  const session = wb.sessions[parseInt(sessionIndex)];
+
+  // Find the exercise item
+  let item = null;
+  for (const group of session.groups) {
+    if (group.primary.name === exerciseName) { item = group.primary; break; }
+    if (group.superset && group.superset.name === exerciseName) { item = group.superset; break; }
+  }
+  if (!item) return;
+
+  // Load today's log first, fall back to last entry for weight pre-fill
+  const todayStr = todayISO();
+  const todayEntry = getEntriesForDate(todayStr)
+    .find(e => e.phaseName === phase.name && e.sessionNumber === session.day);
+  const lastEntry = getLastEntry(phase.name, session.day);
+
+  let savedWeight = '';
+  let savedNotes = '';
+  if (todayEntry) {
+    const log = todayEntry.exerciseLogs.find(l => l.exerciseName === exerciseName);
+    if (log) { savedWeight = log.weight; savedNotes = log.notes; }
+  } else if (lastEntry) {
+    const log = lastEntry.exerciseLogs.find(l => l.exerciseName === exerciseName);
+    if (log) { savedWeight = log.weight; }
+  }
+
+  const videoHtml = item.videoFile ? `
+    <video controls autoplay playsinline class="ex-detail-video">
+      <source src="videos/${encodeURIComponent(item.videoFile)}.mp4" type="video/mp4">
+    </video>` : '';
+
+  const programNotesHtml = item.notes
+    ? `<div class="ex-detail-program-notes">${escHtml(item.notes)}</div>` : '';
+
+  const existing = document.getElementById('ex-detail-modal');
+  if (existing) { existing.querySelector('video')?.pause(); existing.remove(); }
+
+  const safeName = exerciseName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="modal-overlay" id="ex-detail-modal" onclick="closeExDetailOnOverlay(event)">
+      <div class="modal-sheet ex-detail-sheet">
+        <div class="modal-header">
+          <button class="modal-cancel" onclick="closeExDetail()">Cancel</button>
+          <div class="modal-title">${escHtml(item.name)}</div>
+          <button class="modal-save" onclick="saveExDetail('${level}','${phaseIndex}','${blockIndex}','${sessionIndex}','${safeName}')">Save</button>
+        </div>
+        ${videoHtml}
+        <div class="ex-detail-body">
+          <div class="ex-detail-prescription">${escHtml(item.prescription)}</div>
+          ${programNotesHtml}
+          <div class="ex-detail-field">
+            <label class="ex-detail-label">Weight Used</label>
+            <div class="ex-detail-input-row">
+              <input id="ex-detail-weight" type="text" inputmode="decimal"
+                placeholder="0" value="${escHtml(savedWeight)}" autocomplete="off">
+              <span class="ex-detail-unit">lbs</span>
+            </div>
+          </div>
+          <div class="ex-detail-field">
+            <label class="ex-detail-label">Notes</label>
+            <textarea id="ex-detail-notes" placeholder="Form cues, how it felt, next time goal...">${escHtml(savedNotes)}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function closeExDetail() {
+  const modal = document.getElementById('ex-detail-modal');
+  if (modal) { modal.querySelector('video')?.pause(); modal.remove(); }
+}
+
+function closeExDetailOnOverlay(event) {
+  if (event.target.id === 'ex-detail-modal') closeExDetail();
+}
+
+function saveExDetail(level, phaseIndex, blockIndex, sessionIndex, exerciseName) {
+  const phases = getPhasesByLevel(level);
+  const phase = phases[parseInt(phaseIndex)];
+  const wb = phase.weekBlocks[parseInt(blockIndex)];
+  const session = wb.sessions[parseInt(sessionIndex)];
+  const weight = (document.getElementById('ex-detail-weight').value || '').replace(/[^0-9.]/g, '');
+  const notes = document.getElementById('ex-detail-notes').value.trim();
+  saveExerciseLog(phase.name, wb.title, session.day, exerciseName, weight, notes, todayISO());
+  closeExDetail();
+  renderSessionView(level, phaseIndex, blockIndex, sessionIndex);
 }
 
 // ─── Video Player ─────────────────────────────────────────────
