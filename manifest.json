@@ -2,7 +2,7 @@
   "name": "FootyStrength",
   "short_name": "FootyStrength",
   "description": "AFL midfielder strength & conditioning program tracker",
-  "start_url": "/",
+  "start_url": "/footy-strength/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#000000",
