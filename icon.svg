@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <!-- Background -->
+  <rect width="192" height="192" rx="40" fill="#000000"/>
+  <!-- Outer circle ring -->
+  <circle cx="96" cy="96" r="76" fill="none" stroke="#0d9488" stroke-width="6"/>
+  <!-- Barbell bar -->
+  <rect x="32" y="89" width="128" height="14" rx="7" fill="#ffffff"/>
+  <!-- Left weight plate outer -->
+  <rect x="26" y="66" width="22" height="60" rx="8" fill="#0d9488"/>
+  <!-- Left weight plate inner -->
+  <rect x="30" y="72" width="14" height="48" rx="5" fill="#065f46"/>
+  <!-- Right weight plate outer -->
+  <rect x="144" y="66" width="22" height="60" rx="8" fill="#0d9488"/>
+  <!-- Right weight plate inner -->
+  <rect x="148" y="72" width="14" height="48" rx="5" fill="#065f46"/>
+  <!-- Center collar left -->
+  <rect x="58" y="83" width="12" height="26" rx="4" fill="#d1fae5"/>
+  <!-- Center collar right -->
+  <rect x="122" y="83" width="12" height="26" rx="4" fill="#d1fae5"/>
+  <!-- "FS" text -->
+  <text x="96" y="164" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" fill="#0d9488" text-anchor="middle" letter-spacing="2">FS</text>
+</svg>
