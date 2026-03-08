@@ -1,16 +1,17 @@
 // FootyStrength Service Worker — Cache-first offline support
 
 const CACHE_NAME = 'footystrength-v1';
+const BASE = '/footy-strength';
 
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/css/styles.css',
-  '/js/data.js',
-  '/js/store.js',
-  '/js/app.js',
-  '/icon.svg',
+  BASE + '/',
+  BASE + '/index.html',
+  BASE + '/manifest.json',
+  BASE + '/css/styles.css',
+  BASE + '/js/data.js',
+  BASE + '/js/store.js',
+  BASE + '/js/app.js',
+  BASE + '/icon.svg',
 ];
 
 // Install — cache all assets
@@ -33,14 +34,12 @@ self.addEventListener('activate', event => {
 
 // Fetch — cache first, fall back to network
 self.addEventListener('fetch', event => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) return cached;
       return fetch(event.request).then(response => {
-        // Cache successful responses for app assets
         if (response && response.status === 200 && response.type !== 'opaque') {
           const clone = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
@@ -48,9 +47,8 @@ self.addEventListener('fetch', event => {
         return response;
       });
     }).catch(() => {
-      // Offline fallback for navigation requests
       if (event.request.mode === 'navigate') {
-        return caches.match('/index.html');
+        return caches.match(BASE + '/index.html');
       }
     })
   );
