@@ -603,11 +603,10 @@ function openExerciseDetail(level, phaseIndex, blockIndex, sessionIndex, exercis
     </video>` : '';
 
   const catalogue = !item.videoFile ? getCatalogueData(item.name) : null;
-  const catalogueHtml = catalogue ? `
-    <div class="ex-catalogue">
-      <div class="ex-catalogue-desc">${escHtml(catalogue.description)}</div>
-      ${catalogue.images.map(src => `<img class="ex-catalogue-img" src="${src}" alt="${escHtml(item.name)} reference" loading="lazy">`).join('')}
-    </div>` : '';
+  const catalogueImgHtml = catalogue && catalogue.images.length ? `
+    <img class="ex-detail-catalogue-img" src="${catalogue.images[0]}" alt="${escHtml(item.name)} reference" loading="lazy">` : '';
+  const catalogueDescHtml = catalogue ? `
+    <div class="ex-catalogue-desc">${escHtml(catalogue.description)}</div>` : '';
 
   const programNotesHtml = item.notes
     ? `<div class="ex-detail-program-notes">${escHtml(item.notes)}</div>` : '';
@@ -625,10 +624,11 @@ function openExerciseDetail(level, phaseIndex, blockIndex, sessionIndex, exercis
           <button class="modal-save" onclick="saveExDetail('${level}','${phaseIndex}','${blockIndex}','${sessionIndex}','${safeName}')">Save</button>
         </div>
         ${videoHtml}
+        ${catalogueImgHtml}
         <div class="ex-detail-body">
           <div class="ex-detail-prescription">${escHtml(item.prescription)}</div>
           ${programNotesHtml}
-          ${catalogueHtml}
+          ${catalogueDescHtml}
           <div class="ex-detail-field">
             <label class="ex-detail-label">Weight Used</label>
             <div class="ex-detail-input-row">
