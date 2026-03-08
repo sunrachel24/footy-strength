@@ -1060,7 +1060,7 @@ const _CAT = {
     description: 'Set up with hands on a bench at roughly 45°. Lower your chest toward the bench with control, then explode back up — aim to push your hands as far off the bench as possible. Maintain a straight body line throughout. Land softly and immediately flow into the next rep. Quality over quantity: stop when height or speed drops (typically 5–8 reps).',
   },
   medBallPowerDrop: {
-    images: [],
+    images: ['exercise-images/medball-power-drop.png'],
     description: 'Lie on your back with a partner standing above. Begin by throwing the ball upward with maximum force — prioritise speed and height. Your partner catches and drops it back to you at chest height. Absorb the catch smoothly and immediately explode back up. Use a 4–5 kg ball. Stop the set as soon as height or power drops.',
   },
 };
